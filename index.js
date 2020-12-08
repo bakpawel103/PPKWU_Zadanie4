@@ -1,9 +1,13 @@
 const express = require('express');
 
-const https = require('http');
+const https = require('https');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { writeFileSync } = require('fs')
 
 const app = express();
 const port = 3000;
@@ -31,7 +35,7 @@ app.get('/getCompanies', (req, res) => {
 });
 
 var getCompaniesListFromUrl = (name, callback) => {
-  http.get(`https://panoramafirm.pl/szukaj?k=${name}&l=`, function(res) {
+  https.get(`https://panoramafirm.pl/szukaj?k=${name}&l=`, function(res) {
     var data = [];
 
     res.on('data', function(chunk) {
