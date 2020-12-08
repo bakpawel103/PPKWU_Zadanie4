@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bakpawel103/PPKWU_Zadanie4/issues"
   },
-  "homepage": "https://github.com/bakpawel103/PPKWU_Zadanie4#readme"
+  "homepage": "https://github.com/bakpawel103/PPKWU_Zadanie4#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
 }
