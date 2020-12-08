@@ -27,9 +27,20 @@ app.get('/getCompanies', (req, res) => {
   } else {
     getCompaniesListFromUrl(req.body.name, function(result) {
       const dom = new JSDOM(result);
-      var events = [];
+      var companyList = [];
 
-      res.send(dom);
+      var element = dom.window.document.querySelectorAll(`[id="company-list"]`);
+      console.log(JSON.stringify(element));
+
+      for(let nodeListIndex = 0; nodeListIndex < element.length; nodeListIndex++) {
+        var companyName = element[nodeListIndex].querySelector('.company-name').innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
+
+        companyList.push({
+          companyName: companyName
+        });
+      }
+
+      res.send(element);
     });
   }
 });
