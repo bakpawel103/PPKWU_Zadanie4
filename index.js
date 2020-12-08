@@ -16,7 +16,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getCompanies', (req, res) => {
-  res.json({ result: req.body });
+  if(!req.body || (!req.body.name)) {
+    res.status(500).send("Pass body with string property");
+  } else {
+    res.json({ result: req.body });
+  }
 });
 
 app.listen(port, () => {

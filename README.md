@@ -14,5 +14,10 @@ To start server, just go to project directory with terminal and enter command:
 @return list of companies with name provided in body
 
 **Example body:**
+```javascript
+{
+    "name": "hydraulik"
+}
+```
 
 **Example result:**
