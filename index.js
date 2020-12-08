@@ -29,10 +29,10 @@ app.get('/getCompanies', (req, res) => {
       const dom = new JSDOM(result);
       var companyList = [];
 
-      var element = dom.window.document.querySelectorAll(`[id="company-list"]`);
-      console.log(JSON.stringify(element));
+      var element = dom.window.document.querySelectorAll(`[id="company-list"]`)[0];
+      console.log(element.childElementCount);
 
-      for(let nodeListIndex = 0; nodeListIndex < element.length; nodeListIndex++) {
+      for(let nodeListIndex = 0; nodeListIndex < element.childElementCount; nodeListIndex++) {
         var companyName = element[nodeListIndex].querySelector('.company-name').innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
 
         companyList.push({
@@ -40,7 +40,7 @@ app.get('/getCompanies', (req, res) => {
         });
       }
 
-      res.send(element);
+      res.send(companyList);
     });
   }
 });
