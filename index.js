@@ -21,9 +21,27 @@ app.get('/getCompanies', (req, res) => {
   if(!req.body || (!req.body.name)) {
     res.status(500).send("Pass body with string property");
   } else {
-    res.json({ result: req.body });
+    getCompaniesListFromUrl(req.body.name, function(result) {
+      const dom = new JSDOM(result);
+      var events = [];
+
+      res.send(dom);
+    });
   }
 });
+
+var getCompaniesListFromUrl = (name, callback) => {
+  http.get(`https://panoramafirm.pl/szukaj?k=${name}&l=`, function(res) {
+    var data = [];
+
+    res.on('data', function(chunk) {
+      data.push(chunk);
+    }).on('end', function() {
+      data = Buffer.concat(data).toString();
+      callback(data);
+    });
+  });
+}
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`)
