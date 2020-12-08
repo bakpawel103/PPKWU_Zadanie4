@@ -5,6 +5,9 @@ const port = 3000;
 
 const bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.get('/', (req, res) => {
   res.send('Welcome at site, that will list all available companies with name provided in body and will generate vcf file.');
 });
