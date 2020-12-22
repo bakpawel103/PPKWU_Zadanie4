@@ -22,10 +22,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getCompanies', (req, res) => {
-  if(!req.body || (!req.body.name)) {
+  if(!req.query || (!req.query.name)) {
     res.status(500).send("Pass body with string property");
   } else {
-    getCompaniesListFromUrl(req.body.name, function(result) {
+    getCompaniesListFromUrl(req.query.name, function(result) {
       const dom = new JSDOM(result);
       var companyList = [];
 

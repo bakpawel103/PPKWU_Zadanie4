@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Get Companies</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      async function searchCompanies(form) {
+          var value = form.inputbox.value;
+
+          const res = await axios.get('http://localhost:3000/getCompanies', { params: { "name":value } });
+
+          var companies = res.data;
+          console.log(companies);
+      }
+    </script>
+  </head>
+
+  <body>
+    <form name="myform" action="" method="GET">Search:
+    <INPUT type="text" name="inputbox" Value="">
+    <INPUT type="button" name="button" Value="Click" onClick="searchCompanies(this.form)">
+  </body>
+</html>
