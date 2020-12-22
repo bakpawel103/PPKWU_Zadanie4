@@ -4,21 +4,97 @@
     <meta charset="utf-8">
     <title>Get Companies</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+      }
+
+      .styled-table th,
+      .styled-table td {
+        padding: 12px 15px;
+      }
+
+      .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+      }
+
+      .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+
+      .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+      }
+
+      .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+      }
+    </style>
     <script>
+      var data = [];
+
       async function searchCompanies(form) {
           var value = form.inputbox.value;
 
           const res = await axios.get('http://localhost:3000/getCompanies', { params: { "name":value } });
 
-          var companies = res.data;
-          console.log(companies);
+          data = res.data;
+          console.log(data);
+
+          var output = document.getElementById('output');
+          output.innerHTML = json2Table(data);
+      }
+
+      function generateVCardFile(row) {
+        console.log(data[row]);
+      }
+
+      function json2Table(json) {
+        let cols = Object.keys(json[0]);
+
+        let headerRow = `<th>L.p.</th>` + cols
+          .map(col => `<th>${col}</th>`)
+          .join("") + `<th>Generate vCard file</th>`;
+
+        let rows = json
+          .map((row, index) => {
+            let tds = cols.map(col => `<td>${row[col]}</td>`).join("");
+            return `<tr><td>${index}</td>${tds}<td><button onclick="generateVCardFile(${index})">Generate</button></td></tr>`;
+          })
+          .join("");
+
+        const table = `
+      	<table class="styled-table">
+      		<thead>
+      			<tr>${headerRow}</tr>
+      		<thead>
+      		<tbody>
+      			${rows}
+      		<tbody>
+      	<table>`;
+
+        return table;
       }
     </script>
   </head>
 
   <body>
     <form name="myform" action="" method="GET">Search:
-    <INPUT type="text" name="inputbox" Value="">
-    <INPUT type="button" name="button" Value="Click" onClick="searchCompanies(this.form)">
+      <input type="text" name="inputbox" Value="">
+      <input type="button" name="button" Value="Click" onClick="searchCompanies(this.form)">
+    </form>
+    <p id='output'></p>
   </body>
 </html>
