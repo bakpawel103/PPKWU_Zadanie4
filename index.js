@@ -52,6 +52,24 @@ app.get('/getCompanies', (req, res) => {
   }
 });
 
+app.get('/generateVCardFile', (req, res) => {
+  if(!req.query || ((!req.query.address) && (!req.query.name) && (!req.query.phoneNumber))) {
+    res.status(500).send("Pass body with string property");
+  } else {
+    var VCard = require('vcard-creator').default
+
+    var myVCard = new VCard()
+
+    myVCard.addCompany(req.query.name);
+    myVCard.addPhoneNumber(req.query.phoneNumber, 'PREF;WORK');
+    myVCard.addAddress(req.query.address);
+
+    writeFileSync(`${__dirname}/vcs/${req.query.name}.vcf`, myVCard.toString());
+
+    res.sendFile(`${__dirname}/vcs/${req.query.name}.vcf`);
+  }
+});
+
 var getCompaniesListFromUrl = (name, callback) => {
   https.get(`https://panoramafirm.pl/szukaj?k=${name}&l=`, function(res) {
     var data = [];

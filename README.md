@@ -10,14 +10,12 @@ To start server, just go to project directory with terminal and enter command:
 ## Endpoints:
 
 - `GET /getCompanies` <- get list of companies with name provided in body  
-  @body (:string)  
+  @params (:string)  
   @return list of companies with name provided in body
 
-  **Example body:**
+  **Example url:**
   ```javascript
-  {
-      "name": "hydraulik"
-  }
+  http://localhost:3000/getCompanies?name=hydraulik
   ```
 
   <details><summary>Example result:</summary>
@@ -149,5 +147,27 @@ To start server, just go to project directory with terminal and enter command:
           "phoneNumber": "518 678 009"
       }
   ]
+  ```
+  </details>
+
+
+- `GET /generateVCardFile` <- generate and response vCard file for provided company  
+  @params (:string :string :string)  
+  @return generated vCard file for provided company data
+
+  **Example url:**
+  ```javascript
+  http://localhost:3000/generateVCardFile?name=Adam+Ko%C5%82ota+Udra%C5%BCnianie+rur&address=ul.+Zaciszna+30A,+05-230+Koby%C5%82ka&phoneNumber=781+266+854
+  ```
+
+  <details><summary>Example result:</summary>
+  ```javascript
+  BEGIN:VCARD
+  VERSION:3.0
+  REV:2020-12-22T14:33:14.902Z
+  ORG;CHARSET=utf-8:Adam Kołota Udrażnianie rur
+  TEL;PREF;WORK:781 266 854
+  ADR;WORK;POSTAL;CHARSET=utf-8:ul. Zaciszna 30A, 05-230 Kobyłka;;;;;;
+  END:VCARD
   ```
   </details>

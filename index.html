@@ -51,14 +51,16 @@
           const res = await axios.get('http://localhost:3000/getCompanies', { params: { "name":value } });
 
           data = res.data;
-          console.log(data);
 
           var output = document.getElementById('output');
           output.innerHTML = json2Table(data);
       }
 
-      function generateVCardFile(row) {
+      async function generateVCardFile(row) {
         console.log(data[row]);
+        const res = await axios.get('http://localhost:3000/generateVCardFile', { params: { "name": data[row].name, "address": data[row].address, "phoneNumber": data[row].phoneNumber } });
+
+        console.log(res.data);
       }
 
       function json2Table(json) {
@@ -79,11 +81,11 @@
       	<table class="styled-table">
       		<thead>
       			<tr>${headerRow}</tr>
-      		<thead>
+      		</thead>
       		<tbody>
       			${rows}
-      		<tbody>
-      	<table>`;
+      		</tbody>
+      	</table>`;
 
         return table;
       }
