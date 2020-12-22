@@ -30,13 +30,20 @@ app.get('/getCompanies', (req, res) => {
       var companyList = [];
 
       var element = dom.window.document.querySelectorAll(`[id="company-list"]`)[0];
-      console.log(element.childElementCount);
 
-      for(let nodeListIndex = 0; nodeListIndex < element.childElementCount; nodeListIndex++) {
-        var companyName = element[nodeListIndex].querySelector('.company-name').innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim();
+      var companyNames = element.querySelectorAll('.company-name');
+      var companyAddresses = element.querySelectorAll('.address');
+      var companyPhoneNumbers = element.querySelectorAll('.addax-cs_hl_phonenumber_click');
+
+      for(let nodeListIndex = 0; nodeListIndex < companyNames.length; nodeListIndex++) {
+        var companyName = decodeHtml(companyNames[nodeListIndex].innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim());
+        var companyAddress = decodeHtml(removeTags(companyAddresses[nodeListIndex].innerHTML.replace(/(\r\n|\n|\r)/gm, "").trim()));
+        var companyPhoneNumber = decodeHtml(companyPhoneNumbers[nodeListIndex].getAttribute("title").replace(/(\r\n|\n|\r)/gm, "").trim());
 
         companyList.push({
-          companyName: companyName
+          name: companyName,
+          address: companyAddress,
+          phoneNumber: companyPhoneNumber
         });
       }
 
@@ -56,6 +63,30 @@ var getCompaniesListFromUrl = (name, callback) => {
       callback(data);
     });
   });
+}
+
+var decodeHtml = (encodedString) => {
+  var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
+  var translate = {
+      "nbsp": " ",
+      "amp" : "&",
+      "quot": "\"",
+      "lt"  : "<",
+      "gt"  : ">"
+  };
+  return encodedString.replace(translate_re, function(match, entity) {
+      return translate[entity];
+  }).replace(/&#(\d+);/gi, function(match, numStr) {
+      var num = parseInt(numStr, 10);
+      return String.fromCharCode(num);
+  });
+}
+
+var removeTags = (str) => {
+  if ((str===null) || (str==='')) return false;
+  else str = str.toString();
+
+  return str.replace( /(<([^>]+)>)/ig, '');
 }
 
 app.listen(port, () => {
