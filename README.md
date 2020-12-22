@@ -20,7 +20,7 @@ To start server, just go to project directory with terminal and enter command:
   }
   ```
 
-  <details><summary>**Example result:**</summary>
+  <details><summary>Example result:</summary>
   ```javascript
   [
       {
