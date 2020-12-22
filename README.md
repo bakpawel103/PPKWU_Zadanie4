@@ -20,7 +20,7 @@ To start server, just go to project directory with terminal and enter command:
   }
   ```
 
-  **Example result:**
+  <details><summary>**Example result:**</summary>
   ```javascript
   [
       {
@@ -150,3 +150,4 @@ To start server, just go to project directory with terminal and enter command:
       }
   ]
   ```
+  </details>
